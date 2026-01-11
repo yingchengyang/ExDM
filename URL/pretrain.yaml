@@ -1,0 +1,65 @@
+defaults:
+  - configs/agent: ddpg
+  - override hydra/launcher: submitit_local
+
+# mode
+reward_free: true
+# task settings
+task: none
+domain: walker # primal task will be infered in runtime
+obs_type: states # [states, pixels]
+frame_stack: 3 # only works if obs_type=pixels
+action_repeat: 1 # set to 2 for pixels
+discount: 0.99
+# train settings
+num_train_frames: 2000010
+num_seed_frames: 4000
+# eval
+eval_every_frames: 10000
+num_eval_episodes: 10
+# snapshot
+snapshots: [100000, 500000, 1000000, 2000000]
+snapshot_dir: ../../../../../pretrained_models/${obs_type}/${domain}/${agent.pretrain_name}/${seed}
+# snapshot_dir: ./
+# replay buffer
+# TODO: seems that the original is 1000000, we use 2000000 before 1126
+replay_buffer_size: 1000000
+replay_buffer_num_workers: 4
+save_snapshot: false
+batch_size: ${agent.batch_size}
+nstep: ${agent.nstep}
+update_encoder: true # should always be true for pre-training
+# misc
+seed: 1
+device: cuda
+save_video: true
+save_train_video: false
+use_tb: false
+use_wandb: false
+# experiment
+experiment: exp
+
+# for diffusion policy
+critic_type: IQL
+guidance_scale: 1.0
+tau: 0.7
+finetune_type: DDPG 
+alpha: 3.0
+every_score_step: 10000
+every_score_update: 10000
+diffusion_step: 15
+
+hydra:
+  run:
+    dir: ./exp_local/${domain}/pretrain/${agent.pretrain_name}/${now:%Y.%m.%d.%H%M%S}_${seed}
+  sweep:
+    dir: ./exp_sweep/${domain}/pretrain/${agent.pretrain_name}/${now:%Y.%m.%d.%H%M}_${seed}_${experiment}
+    subdir: ${hydra.job.num}
+  launcher:
+    timeout_min: 4300
+    cpus_per_task: 10
+    gpus_per_node: 1
+    tasks_per_node: 1
+    mem_gb: 160
+    nodes: 1
+    submitit_folder: ./exp_sweep/${domain}/pretrain/${agent.pretrain_name}/${now:%Y.%m.%H%M}_${seed}_${experiment}/.slurm

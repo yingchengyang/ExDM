@@ -1,2 +1,27 @@
 # ExDM
-Official implementation for "Exploratory Diffusion Model for Unsupervised Reinforcement Learning"
+
+[![arXiv](https://img.shields.io/badge/arXiv-2502.07279-b31b1b.svg)](https://arxiv.org/abs/2502.07279)
+
+- This is the official implementation for [Exploratory Diffusion Model for Unsupervised Reinforcement Learning](https://arxiv.org/abs/2502.07279).
+
+- The training code is based on [URLB](https://github.com/rll-research/url_benchmark).
+
+## Setup
+```sh
+conda create -n exdm python=3.8
+conda activate exdm
+pip install -r requirements.txt
+pip install torch==1.8.0+cu111 torchvision==0.9.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
+```
+
+## Pretrain in Maze
+```sh
+cd URL
+chmod +x pretrain_maze.sh
+
+export MUJOCO_EGL_DEVICE_ID=0
+python pretrain.py configs/agent=exdm_maze task=maze_square_a device=cuda:0 domain=maze_square_a num_train_frames=100010 seed=0 save_snapshot=true
+
+# calculate the state coverage for each maze
+python result_maze.py
+```

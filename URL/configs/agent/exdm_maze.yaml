@@ -1,0 +1,38 @@
+# @package agent
+_target_: agent.exdm.ExDM_Agent
+pretrain_name: exdm
+name: "exdm_${critic_type}_${alpha}_${guidance_scale}_${tau}_${finetune_type}_${diffusion_step}_${every_score_step}_${every_score_update}"
+domain: ${domain}
+reward_free: ${reward_free}
+obs_type: ??? # to be specified later
+obs_shape: ??? # to be specified later
+action_shape: ??? # to be specified later
+device: ${device}
+lr: 1e-4
+critic_target_tau: 0.01
+update_every_steps: 2
+use_tb: ${use_tb}
+use_wandb: ${use_wandb}
+num_expl_steps: ??? # to be specified later
+hidden_dim: 1024
+feature_dim: 50
+stddev_schedule: 0.2
+stddev_clip: 0.3
+nstep: 3
+batch_size: 1024
+init_critic: true
+update_encoder: ${update_encoder}
+
+# score model parameters
+score_time_step: 20
+score_train_iter: 5
+critic_type: ${critic_type}
+guidance_scale: ${guidance_scale}
+tau: ${tau}
+save_fake: false
+finetune_type: ${finetune_type}
+diffusion_scale: 1.0
+alpha: ${alpha}
+every_score_step: ${every_score_step}
+every_score_update: ${every_score_update}
+diffusion_step: ${diffusion_step}
