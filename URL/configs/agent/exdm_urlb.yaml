@@ -19,13 +19,13 @@ feature_dim: 50
 stddev_schedule: 0.2
 stddev_clip: 0.3
 nstep: 3
-batch_size: 1024
+batch_size: 256
 init_critic: true
 update_encoder: ${update_encoder}
 
 # score model parameters
-score_time_step: 20
-score_train_iter: 5
+score_time_step: {"walker": 50, "quadruped": 10, "jaco": 1, "hopper": 20} 
+score_train_iter: {"walker": 1, "quadruped": 1, "jaco": 1, "hopper": 2}
 critic_type: ${critic_type}
 guidance_scale: ${guidance_scale}
 tau: ${tau}
