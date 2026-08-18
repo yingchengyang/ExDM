@@ -1,3 +1,5 @@
+
+
 # ExDM
 
 [![arXiv](https://img.shields.io/badge/arXiv-2502.07279-b31b1b.svg)](https://arxiv.org/abs/2502.07279) [![Project Page](https://img.shields.io/badge/project-page-blue)](https://yingchengyang.github.io/exdm)
@@ -30,7 +32,7 @@ python result_maze.py
 ```sh
 cd URL
 
-# you can set DOMAIN as walker, quadruped, jaco, or hopper
+# you can set DOMAIN as walker, quadruped, jaco, cheetah, or hopper
 
 if [ "$DOMAIN" == "walker" ]
 then
